@@ -1,5 +1,5 @@
 ####اَلسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ وَبَرَكَا تُهُ
->>%#ff7f50%إنَّ أوْلىَ النِّاس باللهِ مَنْ بَدأهم بالسَّلاَم%%
+>> %#ff7f50%إنَّ أوْلىَ النِّاس باللهِ مَنْ بَدأهم بالسَّلاَم%%
 >%#000080%"Sesungguhnya manusia yang paling utama di sisi Allah adalah yang terlebih dahulu mengucapkan salam." (HR Abu Dawud).%%
 >>!~blue;default;default;7;%#b0d12a%Nabi ﷺ bersabda:%%~!
 >%#000080%"Demi dzat yang jiwaku berada di tangan-Nya, kalian tidak akan masuk surga hingga kalian beriman. Tidakkah kalian beriman hingga kalian saling mencintai. Maukah kutunjukkan kepada kalian sesuatu yang jika kalian mengerjakannya niscaya kalian akan saling mencintai? Sebarkanlah salam di antara kalian!" (HR Abu Dawud).%%
@@ -18,14 +18,14 @@ p4stethisForME&everyOne](https://arkaldius.aldi.my.id/p/PP1.jpeg)<-
 
 ---
 
-#Linktree
-####Utama ==https://s.id/aldi-setiadi-putra==
+# Linktree
+#### Utama ==https://s.id/aldi-setiadi-putra==
 
-####\#Love 🇵🇸==https://rentry.co/aspz3==
+#### \#Love 🇵🇸==https://rentry.co/aspz3==
 
-####Link 2 ==https://maper.info/aldi==
+#### Link 2 ==https://maper.info/aldi==
 
-####Link 3 ==https://unesa.me/aldi==
+#### Link 3 ==https://unesa.me/aldi==
 
 ####Link 4 ==http://unand.net/aldi==
 
