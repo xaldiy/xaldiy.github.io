@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0c0b">
+  <meta name="description" content="A look inside the Astro-powered source structure of aldi.my.id, built by Aldi Setiadi Putra.">
+  <title>Aldi — Built with Astro</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #090b0a;
+      --panel: #101310;
+      --panel-2: #141914;
+      --line: #283029;
+      --text: #e8eee8;
+      --muted: #9aa59b;
+      --green: #a6e3ad;
+      --gold: #d9bd78;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background:
+        radial-gradient(ellipse at 80% 0%, #1a251b 0, transparent 34rem),
+        radial-gradient(ellipse at 0% 35%, #17170f 0, transparent 28rem),
+        var(--bg);
+      color: var(--text); font-family: var(--sans); line-height: 1.6;
+    }
+    a { color: inherit; }
+    .wrap { width: min(1120px, calc(100% - 40px)); margin-inline: auto; }
+    .nav {
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      padding: 20px 0; border-bottom: 1px solid #ffffff10;
+    }
+    .brand { display: flex; gap: 10px; align-items: center; font-family: var(--mono); font-size: 13px; }
+    .brand-mark {
+      width: 28px; height: 28px; display: grid; place-items: center; border-radius: 8px;
+      border: 1px solid #a6e3ad60; color: var(--green); background: #a6e3ad0c; font-weight: 800;
+    }
+    .nav-links { display: flex; gap: 20px; color: var(--muted); font-size: 13px; }
+    .nav-links a { text-decoration: none; }
+    .nav-links a:hover { color: var(--green); }
+    .hero { padding: clamp(68px, 12vw, 132px) 0 78px; }
+    .eyebrow { color: var(--green); font: 12px/1.5 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+    h1 { font-size: clamp(46px, 8vw, 88px); letter-spacing: -.075em; line-height: .98; margin: 22px 0; max-width: 850px; }
+    h1 .accent { color: var(--green); }
+    .hero p { color: var(--muted); font-size: clamp(16px, 2vw, 19px); max-width: 680px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      min-height: 44px; padding: 0 17px; border: 1px solid var(--line); border-radius: 8px;
+      text-decoration: none; font-size: 14px; transition: transform .18s, border-color .18s, background .18s;
+    }
+    .btn:hover { transform: translateY(-2px); border-color: #a6e3ad70; }
+    .btn.primary { background: var(--green); border-color: var(--green); color: #101510; font-weight: 700; }
+    .btn.primary:hover { background: #c1f0c6; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 34px; color: var(--muted); font: 12px var(--mono); }
+    .meta span::before { content: "●"; color: var(--green); margin-right: 8px; font-size: 9px; }
+    section { padding: 42px 0; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-bottom: 22px; }
+    .section-head h2 { margin: 0; font-size: clamp(24px, 4vw, 34px); letter-spacing: -.04em; }
+    .section-head p { margin: 0; max-width: 450px; color: var(--muted); font-size: 14px; }
+    .browser {
+      border: 1px solid #3a443b; border-radius: 14px; overflow: hidden; background: #0d100e;
+      box-shadow: 0 28px 90px #0006;
+    }
+    .browser-bar { display: flex; align-items: center; gap: 12px; padding: 12px 15px; background: #141814; border-bottom: 1px solid var(--line); }
+    .dots { display: flex; gap: 6px; }
+    .dots i { display: block; width: 9px; height: 9px; border-radius: 50%; background: #485148; }
+    .dots i:first-child { background: #cf7770; } .dots i:nth-child(2) { background: #d9bd78; } .dots i:nth-child(3) { background: #83bd8a; }
+    .address { flex: 1; max-width: 540px; margin: auto; padding: 5px 10px; border: 1px solid #ffffff0d; border-radius: 6px; background: #090b0a; color: #a8b2a9; text-align: center; font: 12px var(--mono); }
+    .browser-body { display: grid; grid-template-columns: 1fr .82fr; min-height: 310px; }
+    .site-card { padding: clamp(22px, 5vw, 48px); border-right: 1px solid var(--line); }
+    .mini-label { color: var(--green); font: 11px var(--mono); text-transform: uppercase; letter-spacing: .1em; }
+    .site-card h3 { font-size: clamp(30px, 5vw, 48px); line-height: 1.05; letter-spacing: -.06em; margin: 18px 0 12px; }
+    .site-card p { color: var(--muted); max-width: 420px; font-size: 14px; }
+    .site-link { display: inline-block; margin-top: 14px; color: var(--green); font: 13px var(--mono); text-decoration: none; }
+    .preview-art { display: grid; place-items: center; padding: 25px; background: radial-gradient(circle at 50% 50%, #202d20, #0d100e 65%); }
+    .orbit { width: min(220px, 100%); aspect-ratio: 1; position: relative; display: grid; place-items: center; }
+    .orbit::before, .orbit::after { content: ""; position: absolute; inset: 8%; border: 1px solid #a6e3ad35; border-radius: 50%; transform: rotate(-28deg) scaleY(.62); }
+    .orbit::after { transform: rotate(52deg) scaleY(.62); border-color: #d9bd7840; }
+    .monogram { width: 105px; height: 105px; border: 1px solid #a6e3ad70; border-radius: 28px; display: grid; place-items: center; background: #111711; color: var(--green); font: 800 46px var(--mono); box-shadow: 0 0 70px #a6e3ad13; }
+    .float-tag { position: absolute; padding: 6px 9px; background: #151b15; border: 1px solid var(--line); border-radius: 6px; color: var(--muted); font: 10px var(--mono); }
+    .float-tag.one { top: 9%; left: 0; } .float-tag.two { bottom: 12%; right: -2%; color: var(--gold); }
+    .tree-panel { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #0d100e; }
+    .tree-head { display: flex; justify-content: space-between; gap: 12px; padding: 13px 16px; border-bottom: 1px solid var(--line); color: var(--muted); font: 12px var(--mono); }
+    .tree-head strong { color: var(--text); font-weight: 500; }
+    .tree-content { padding: 24px clamp(16px, 4vw, 32px); overflow-x: auto; }
+    pre { margin: 0; color: #cbd5cc; font: 13px/1.85 var(--mono); white-space: pre; }
+    .folder { color: var(--green); } .file { color: #cbd5cc; } .note { color: #758278; }
+    .tree-foot { padding: 12px 16px; border-top: 1px solid var(--line); color: var(--muted); font: 11px var(--mono); }
+    .architecture { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+    .arch-card { padding: 18px; border: 1px solid var(--line); border-radius: 10px; background: #101310a8; }
+    .arch-card .icon { color: var(--gold); font: 20px var(--mono); }
+    .arch-card h3 { margin: 12px 0 5px; font-size: 15px; }
+    .arch-card p { margin: 0; color: var(--muted); font-size: 13px; }
+    .callout { margin-top: 22px; padding: 18px 20px; border-left: 2px solid var(--gold); background: #d9bd780a; color: var(--muted); font-size: 13px; }
+    .callout strong { color: var(--text); }
+    .footer { margin-top: 60px; padding: 22px 0 30px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; border-top: 1px solid #ffffff10; color: var(--muted); font: 12px var(--mono); }
+    .footer a { color: var(--green); text-decoration: none; }
+    @media (max-width: 720px) {
+      .wrap { width: min(100% - 28px, 1120px); }
+      .nav-links { gap: 12px; }
+      .nav-links a:nth-child(2) { display: none; }
+      .browser-body { grid-template-columns: 1fr; }
+      .site-card { border-right: 0; border-bottom: 1px solid var(--line); }
+      .preview-art { min-height: 240px; }
+      .section-head { display: block; }
+      .section-head p { margin-top: 8px; }
+      .architecture { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <header class="wrap nav">
+    <a class="brand" href="#" aria-label="Aldi home" style="text-decoration:none">
+      <span class="brand-mark">A</span><span>aldi.js.org</span>
+    </a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#website">Website</a>
+      <a href="#source">Source structure</a>
+      <a href="https://github.com/xaldiy/astro" target="_blank" rel="noreferrer">GitHub ↗</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="eyebrow">Personal web · Astro-powered</div>
+      <h1>A website is more than a page.<br><span class="accent">It's a system.</span></h1>
+      <p>
+        I'm Aldi Setiadi Putra — an Information Systems student learning by building.
+        This is a small look inside the source structure behind my personal website,
+        <strong>aldi.my.id</strong>, powered by Astro.
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="https://aldi.my.id/" target="_blank" rel="noreferrer">Explore aldi.my.id <span aria-hidden="true">↗</span></a>
+        <a class="btn" href="#source">Inspect the source ↓</a>
+        <a class="btn" href="https://github.com/xaldiy/astro" target="_blank" rel="noreferrer">View repository ↗</a>
+      </div>
+      <div class="meta">
+        <span>Astro</span><span>JavaScript & TypeScript</span><span>Learning in public</span>
+      </div>
+    </section>
+
+    <section id="website">
+      <div class="section-head">
+        <h2>The website behind the code</h2>
+        <p>A personal corner of the web for projects, tools, writing, experiments, and other things I'm building.</p>
+      </div>
+      <div class="browser">
+        <div class="browser-bar">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="address">https://aldi.my.id/</div>
+        </div>
+        <div class="browser-body">
+          <div class="site-card">
+            <div class="mini-label">Personal website / aldi.my.id</div>
+            <h3>Welcome to<br>Aldi's corner.</h3>
+            <p>A collection of pages, small tools, creative projects, and experiments — brought together in one personal website.</p>
+            <a class="site-link" href="https://aldi.my.id/" target="_blank" rel="noreferrer">Open the real website ↗</a>
+          </div>
+          <div class="preview-art" aria-hidden="true">
+            <div class="orbit">
+              <span class="float-tag one">astro.config</span>
+              <div class="monogram">A.</div>
+              <span class="float-tag two">src/ · 163 files</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="source">
+      <div class="section-head">
+        <h2>Inside <span style="color:var(--green)">src/</span></h2>
+        <p>The actual source tree shared for this page, organized into reusable components, layouts, routes, styles, utilities, and integrations.</p>
+      </div>
+      <div class="tree-panel">
+        <div class="tree-head"><strong>websitenew/src</strong><span>Astro project structure</span></div>
+        <div class="tree-content">
+<pre><span class="folder">src/</span>
+├── <span class="folder">components/</span>
+│   ├── <span class="file">ChatWidget.astro</span>
+│   ├── <span class="file">Footer.astro</span>
+│   └── <span class="file">Navbar.astro</span>
+├── <span class="folder">layouts/</span>
+│   └── <span class="file">Layout.astro</span>
+├── <span class="folder">lib/</span>
+│   └── <span class="file">firebase.js</span>
+├── <span class="file">middleware.ts</span>
+├── <span class="folder">pages/</span>
+│   ├── <span class="folder">api/</span>
+│   │   └── <span class="file">check-domain.js</span>
+│   ├── <span class="folder">about/</span>
+│   │   └── <span class="file">index.astro</span>
+│   ├── <span class="folder">always-on/</span>
+│   │   ├── <span class="file">hack-video.astro</span>
+│   │   └── <span class="file">index.astro</span>
+│   ├── <span class="folder">cek-domain/</span>
+│   │   └── <span class="file">index.astro</span>
+│   ├── <span class="folder">cek-list/</span>
+│   │   ├── <span class="file">index.astro</span>
+│   │   └── <span class="folder">xii-mp1/</span>
+│   │       └── <span class="file">index.astro</span>
+│   ├── <span class="folder">contact/</span> · <span class="folder">CV/</span> · <span class="folder">ff/</span>
+│   ├── <span class="folder">galeri/</span> · <span class="folder">kitten/</span> · <span class="folder">kontrakan/</span>
+│   ├── <span class="folder">music/</span> · <span class="folder">myLinks/</span> · <span class="folder">nobar/</span>
+│   ├── <span class="folder">p/</span> <span class="note"># personal pages, projects, and archives</span>
+│   ├── <span class="folder">page/</span> <span class="note"># tests and interactive pages</span>
+│   ├── <span class="folder">partials/</span>
+│   ├── <span class="folder">pkl/</span>
+│   ├── <span class="folder">preview/</span>
+│   ├── <span class="folder">tools/</span> <span class="note"># converters and web utilities</span>
+│   ├── <span class="file">index.astro</span>
+│   ├── <span class="file">maintenance.astro</span>
+│   └── <span class="note">...other routes and pages</span>
+├── <span class="folder">styles/</span>
+│   ├── <span class="folder">lib/</span> <span class="note"># animation, carousel, lightbox, and helpers</span>
+│   ├── <span class="folder">unused/</span>
+│   ├── <span class="file">global.css</span>
+│   ├── <span class="file">style.css</span>
+│   └── <span class="note">...additional stylesheets</span>
+└── <span class="folder">utils/</span>
+    ├── <span class="file">badwords.ts</span>
+    └── <span class="file">security.ts</span></pre>
+        </div>
+        <div class="tree-foot">Representative view · route and asset names are based on the provided tree; grouped folders are abbreviated for readability.</div>
+      </div>
+
+      <div class="architecture">
+        <article class="arch-card">
+          <div class="icon">01 /</div>
+          <h3>Reusable UI</h3>
+          <p>Shared components and layouts keep common interface elements consistent across pages.</p>
+        </article>
+        <article class="arch-card">
+          <div class="icon">02 /</div>
+          <h3>File-based routes</h3>
+          <p>The pages directory organizes the website into routes, tools, personal pages, and experiments.</p>
+        </article>
+        <article class="arch-card">
+          <div class="icon">03 /</div>
+          <h3>Styles & utilities</h3>
+          <p>Stylesheets, helper modules, middleware, and integrations support the wider website.</p>
+        </article>
+      </div>
+      <div class="callout">
+        <strong>Built while learning.</strong> This page is a guided overview of the supplied <code>src/</code> tree, not a full source-code browser. Some directories are grouped or abbreviated to keep the overview readable.
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>© <span id="year"></span> Aldi Setiadi Putra</span>
+      <span>Made with curiosity · <a href="https://aldi.my.id/" target="_blank" rel="noreferrer">aldi.my.id ↗</a></span>
+    </footer>
+  </main>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
